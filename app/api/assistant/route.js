@@ -1,38 +1,18 @@
 import { NextResponse } from "next/server";
+import { writeFile } from "fs/promises";
+import path from "path";
+import os from "os";
+import formidable from "formidable";
 
-// GET → Test directly in browser
-export async function GET() {
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export async function POST(req) {
   return NextResponse.json({
     success: true,
-    message: "BOGI backend is running 🚀",
+    message: "Audio endpoint ready (next step STT)"
   });
-}
-
-// POST → Used by React Native app
-export async function POST(req) {
-  try {
-    const body = await req.json();
-    const userText = body.text;
-
-    if (!userText) {
-      return NextResponse.json(
-        { success: false, message: "No text provided" },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json({
-      success: true,
-      type: "test",
-      reply: `Hello, you said: ${userText}`,
-    });
-
-  } catch (error) {
-    console.error("Error:", error);
-
-    return NextResponse.json(
-      { success: false, message: "Server error" },
-      { status: 500 }
-    );
-  }
 }
